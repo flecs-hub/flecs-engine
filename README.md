@@ -1,5 +1,5 @@
 # Flecs Engine
-A game engine based on the Flecs Entity Component System.
+A game engine based on the [Flecs Entity Component System](https://github.com/SanderMertens/flecs).
 
 **Want to contribute to a new game engine and get paid for it? Come discuss the project on the [Flecs Discord](https://discord.com/invite/BEzP5Rgrrp)!**
 
@@ -40,8 +40,6 @@ Just like Flecs itself, the engine will be [MIT](LICENSE) licensed.
 Flecs Engine will not be a general purpose engine like Unreal, Unity, Godot or Bevy. The primary goal of the engine is to offer the fastest possible path from plain Flecs code to an application with graphics, sound, UI and user input. 
 
 Engine functionality will be exclusively accessible through ECS building blocks. The Flecs API will not be wrapped, and the engine will not expose functions outside of the Flecs API. For an example of what this looks like in practice, see the [tower defense demo](https://github.com/SanderMertens/tower_defense/blob/master/src/main.cpp).
-
-To ensure the engine can be used from C, C++, Rust and C#, the components exposed by the engine cannot use non-trivial types (e.g. no `std::vector`). While engine modules internally are allowed to use more complex language features, the external interface must be compatible with a C ABI.
 
 If the engine hits a limitation in Flecs, it won't work around that limitation. Instead this will either be an accepted limitation of the engine, or will result in changes to Flecs. This will ensure that code remains straightforward, and act as a discovery mechanism for Flecs shortcomings.
 
@@ -85,6 +83,8 @@ The main reasons for using C as primary language are:
 - Because C is simple, there is a larger pool of potential contributors
 
 Note that while C is the primary language for the engine, C++ applications should be fully supported and convenient to write. See the [tower defense demo](https://github.com/SanderMertens/tower_defense/blob/master/src/main.cpp) for an example that's built with mostly C modules that have thin C++ wrappers.
+
+To ensure the engine can be used from C, C++, Rust and C#, the components exposed by the engine cannot use non-trivial types (e.g. no `std::vector`). While engine modules internally are allowed to use more complex language features, the external interface must be compatible with a C ABI.
 
 ### Graphics API
 SDL3 GPU will be used for graphics. This ensures that the engine will be usable on a wide variety of platforms, with a large pool of potential contributors.
