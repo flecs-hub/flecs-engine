@@ -1,6 +1,8 @@
 # Flecs Engine
 A game engine based on the Flecs Entity Component System.
 
+**Want to contribute to a new game engine and get paid for it? Come discuss the project on the [Flecs Discord](https://discord.com/invite/BEzP5Rgrrp)!**
+
 ## Project Goals
 
 ### Equitable and scalable open source development
