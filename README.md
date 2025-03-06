@@ -73,9 +73,18 @@ Applications written for the engine should run unmodified in the browser as well
 Cmake will be used as build system. While I have strong opinions personally about cmake, it's hard to find a build system that better supports the gamedev ecosystem. Support for other build systems can be added on an ad-hoc basis.
 
 ### Programming Language
-The engine will be implemented in C where possible, and in C++ where necessary. In places where C++ is used, C++ features will be used conservatively. Usage of STL should be avoided unless this cannot be avoided. A good reason to use C++ is if an engine module depends on a library that only provides a C++ API. A bad reason to use C++ is that code will be cleaner/faster to write.
+The engine will be implemented in C where possible, and in C++ where necessary. In places where C++ is used, C++ features will be used conservatively. Usage of STL should not be used unless this cannot be avoided. A good reason to use C++ is if an engine module depends on a library that only provides a C++ API. A bad reason to use C++ is that code will be cleaner/faster to write.
 
 Because significant portions of the engine will be written in C, all engine headers need to be C compatible.
+
+The main reasons for using C as primary language are:
+- the C ABI can be easily ported to other languages
+- C compilation speeds are much faster than C++, which leads to faster iteration times
+- C has no templates, which forces all engine features to be available at runtime
+- C is a stupid simple language, which means less time spent on bikeshedding API design
+- Because C is simple, there is a larger pool of potential contributors
+
+Note that while C is the primary language for the engine, C++ applications should be fully supported and convenient to write. See the [tower defense demo](https://github.com/SanderMertens/tower_defense/blob/master/src/main.cpp) for an example that's built with mostly C modules that have thin C++ wrappers.
 
 ### Graphics API
 SDL3 GPU will be used for graphics. This ensures that the engine will be usable on a wide variety of platforms, with a large pool of potential contributors.
