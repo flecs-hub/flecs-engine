@@ -63,7 +63,7 @@ While the engine will have support for meshes, the primary focus is on large num
 ### Run everywhere, for everyone
 One of the goals of the engine is to run Flecs demos, which in most cases will be viewed on (mobile) browsers. Therefore the engine will have to restrain itself to technologies that are stable and widely adopted (so sadly no webgpu).
 
-Applications written for the engine should run unmodified in the browser as well as standalone application.
+Applications written for the engine should run in the browser and as standalone application with the same code.
 
 ## Technical constraints
 
@@ -71,7 +71,7 @@ Applications written for the engine should run unmodified in the browser as well
 Cmake will be used as build system. While I have strong opinions personally about cmake, it's hard to find a build system that better supports the gamedev ecosystem. Support for other build systems can be added on an ad-hoc basis.
 
 ### Programming Language
-The engine will be implemented in C where possible, and in C++ where necessary. In places where C++ is used, C++ features will be used conservatively. Usage of STL should not be used unless this cannot be avoided. A good reason to use C++ is if an engine module depends on a library that only provides a C++ API. A bad reason to use C++ is that code will be cleaner/faster to write.
+The engine will be implemented in C where possible, and in C++ where necessary. In places where C++ is used, C++ features will be used conservatively. STL should not be used unless this cannot be avoided. A good reason to use C++ is if an engine module depends on a library that only provides a C++ API. A bad reason to use C++ is that code will be cleaner/faster to write.
 
 Because significant portions of the engine will be written in C, all engine headers need to be C compatible.
 
@@ -84,7 +84,7 @@ The main reasons for using C as primary language are:
 
 Note that while C is the primary language for the engine, C++ applications should be fully supported and convenient to write. See the [tower defense demo](https://github.com/SanderMertens/tower_defense/blob/master/src/main.cpp) for an example that's built with mostly C modules that have thin C++ wrappers.
 
-To ensure the engine can be used from C, C++, Rust and C#, the components exposed by the engine cannot use non-trivial types (e.g. no `std::vector`). While engine modules internally are allowed to use more complex language features, the external interface must be compatible with a C ABI.
+To ensure the engine can be used from C, C++, Rust and C#, the components exposed by the engine cannot use non-trivial types (e.g. no `std::vector`). While engine modules internally are allowed to use more complex language features, the external interface must be compatible with the C ABI.
 
 ### Graphics API
 SDL3 GPU will be used for graphics. This ensures that the engine will be usable on a wide variety of platforms, with a large pool of potential contributors.
