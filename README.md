@@ -51,26 +51,24 @@ The use cases for Flecs Engine will be to:
 - support development of simple games
 - provide an option for (future) Flecs game jams
 
-### A browser but for gamedev
-ECS lends itself uniquely for data-driven workflows that are not dissimilar from how web browsers work. In a web browser you have a DOM, which is a set of elements that have attributes and can have child elements. In ECS, there is a set of entities that can have components and child entities. [Flecs script](https://www.flecs.dev/flecs/md_docs_2FlecsScript.html) is to ECS what HTML is to web browsers.
+### UGC, UGC, UGC
+A lot of game engines primarily target professional software developers and artists. This generally increases the quality of the content created for the engine at the cost of a smaller target audience. Flecs Engine will do the reverse: focus on UGC (User Generated Content) with less sophisticated but more accessible tools.
 
-Flecs Engine will showcase this idea, where all you need to do in order to render something is write a few lines of Flecs script. This is not fundamentally different from creating entities and components through the regular C/C++/Rust/C# APIs, but does enforce that engine features cannot rely on functions that can only be called from C/C++/Rust/C#.
+The minimum skill level for a Flecs Engine content creator will be roughly the same as someone able to write HTML/CSS. Flecs Engine will feel like a "browser for gamedev", where instead of HTML/CSS you write Flecs Script. Implementing game mechanics will still require coding in any of the supported languages.
 
-Rather than supporting a small number of complex entities, Flecs Engine aims to support a large number of simple entities. For example, it should be possible to create UIs that consist out of tens of thousands of rectangles, lines and text boxes. Similarly it should be possible to create 3D objects that are composed out of many primitive shapes, where each primitive shape is its own entity.
-
-While the engine will have support for meshes, the primary focus is on large numbers of primitive shapes. This ensures that anyone who can write HTML/CSS can also create a scene for Flecs Engine, while also showcasing the large number of objects an ECS can handle.
+Rather than supporting a small number of complex entities, Flecs Engine will support a large number of simple entities. For example, it should be possible to create UIs that consist out of tens of thousands of rectangles, lines and text boxes. Similarly it should be possible to create 3D objects that are composed out of many primitive shapes, where each primitive shape is its own entity.
 
 ### Run everywhere, for everyone
-One of the goals of the engine is to run Flecs demos, which in most cases will be viewed on (mobile) browsers. Therefore the engine will have to restrain itself to technologies that are stable and widely adopted (so sadly no webgpu).
+One of the goals of the engine is to run Flecs demos, which in most cases will be viewed on (mobile) browsers. Therefore the engine will have to restrain itself to technologies that are stable and widely adopted (so sadly no webgpu). Running a Flecs Engine application should be as simple as opening a URL.
 
-Applications written for the engine should run in the browser and as standalone application with the same code.
+Code should run unmodified on all supported platforms. Developers should not have to spend time on porting their code, toggle code between platform-specific compiler flags etc. This may result in the application developer having to give up some control to the engine (such as the application's main function), which is OK.
 
 ## Technical constraints
 
 ### Build system
 Cmake will be used as build system. While I have strong opinions personally about cmake, it's hard to find a build system that better supports the gamedev ecosystem. Support for other build systems can be added on an ad-hoc basis.
 
-### Programming Language
+### Programming language
 The engine will be implemented in C where possible, and in C++ where necessary. In places where C++ is used, C++ features will be used conservatively. STL should not be used unless this cannot be avoided. A good reason to use C++ is if an engine module depends on a library that only provides a C++ API. A bad reason to use C++ is that code will be cleaner/faster to write.
 
 Because significant portions of the engine will be written in C, all engine headers need to be C compatible.
@@ -88,3 +86,40 @@ To ensure the engine can be used from C, C++, Rust and C#, the components expose
 
 ### Graphics API
 SDL3 GPU will be used for graphics. This ensures that the engine will be usable on a wide variety of platforms, with a large pool of potential contributors.
+
+## FAQ
+
+### Why now?
+A number of things have come together for this project to become feasible:
+- Flecs v4 got released, which provides a stable and extensible foundation for the foreseeable future
+- Flecs script is now a viable option for expressing UIs and complex scenes
+- [Bountybot](https://bountybot.dev/) launched, which will be a critical part of the project infrastructure
+- [SDL3](https://wiki.libsdl.org/SDL3/FrontPage) launched
+- A number of isolated experiments for [rendering](https://github.com/flecs-hub/flecs-systems-sokol), [gameplay systems](https://github.com/flecs-hub/flecs-game) and [UI](https://github.com/SanderMertens/flecs-gx) have been ran over the past few years which now inform the direction of this project
+
+### What about the modules in flecs-hub?
+The engine will replace the flecs-hub modules. Much of the flecs-hub code (especially the component modules) will be used as starting point for the engine.
+
+Much of the systems, especially the renderer systems will be written from scratch. The main reason for this is that while the current renderer _technically_ works, it was clearly not written by a rendering engineer. By starting over there's an opportunity for people with actually relevant experience to work on engine features.
+
+### Does the entire engine need to be implemented with ECS?
+No. ECS will act as the glue for the different engine subsystems, but subsystems themselves do not have to be implemented in ECS. For example, a renderer can read the data it needs from the ECS, but use its own methods for storing data.
+
+### When can I start contributing?
+Soon. There are a few more things to square out before officially kicking off the project, which should happen in the next 2-3 weeks.
+
+### Do I need to be an experienced gamedev to contribute to this project?
+No. While some issues will require more specialized knowledge, there will be issues for different skill levels. In practice you'll be able to pick an issue that best matches your skill to increase the chance that it'll get merged. Most issues will require a baseline proficiency in C/C++.
+
+### Can I use AI to implement issues?
+Yes, as long as you make sure that the code actually solves the issue before submitting it. Repeatedly submitting low effort/low quality PRs can get you banned from contributing.
+
+### What if multiple people are working on the same issue?
+Solutions will get merged on a first-come-first-serve basis. When a solution does not meet the requirements, changes will be requested by a maintainer. Only after all requirements are met will a solution be considered for merging.
+
+### Why not write the engine in Rust?
+Two reasons:
+- the vast majority of the gamedev ecosystem is implemented in C/C++
+- the last thing Rust needs is another game engine
+
+While the engine won't be implemented in Rust, Rust will be supported as one of the languages you can build games in.
